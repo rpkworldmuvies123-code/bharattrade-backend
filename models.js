@@ -1,0 +1,5 @@
+import mongoose from 'mongoose';
+const userSchema=new mongoose.Schema({name:{type:String,required:true,trim:true,maxLength:80},email:{type:String,required:true,unique:true,lowercase:true,trim:true},passwordHash:{type:String,required:true},role:{type:String,enum:['user','admin'],default:'user'},watchlist:{type:[String],default:[]},createdAt:{type:Date,default:Date.now}});
+const orderSchema=new mongoose.Schema({userId:{type:mongoose.Schema.Types.ObjectId,ref:'User',required:true},symbol:{type:String,required:true,uppercase:true},side:{type:String,enum:['BUY','SELL'],required:true},quantity:{type:Number,required:true,min:1},price:{type:Number,required:true,min:0},status:{type:String,enum:['PAPER_FILLED','PENDING','REJECTED'],default:'PAPER_FILLED'},mode:{type:String,enum:['paper','live'],default:'paper'},createdAt:{type:Date,default:Date.now}});
+export const User=mongoose.models.User||mongoose.model('User',userSchema);
+export const Order=mongoose.models.Order||mongoose.model('Order',orderSchema);
